@@ -1,0 +1,5 @@
+user: "vagrant"
+newuser: "educacionit"
+#sshcfgpath: "playbooks/ssh.cfg"
+pathkeys: "playbooks/keys/private/RINO.pem"
+password: "$6$rounds=656000$ovuXWNeRcL70hiCO$EyzuTDa.okN/cL/eLFLLwMeEIARHFdvi5MYHTDnbev3UvS8zVFon8MCUVDd0eTe6NQ0Z8OQd7nn8.igXcAotj1"

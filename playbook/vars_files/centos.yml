@@ -1,0 +1,3 @@
+epel: True
+package_manager: yum
+packager_enabled: False

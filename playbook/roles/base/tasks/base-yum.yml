@@ -1,0 +1,10 @@
+- name: "Install EPEL ({{ansible_distribution}})"
+  yum: name=epel-release state=latest
+  become: True
+  become_user: root
+  when: epel == True
+- name: "OS upgrade"
+  yum: name=* state=latest update_cache=yes
+  become: True
+  become_user: root
+  when: packager_enabled == True
