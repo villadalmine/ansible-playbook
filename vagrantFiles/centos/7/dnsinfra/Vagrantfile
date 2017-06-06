@@ -19,11 +19,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.define host_name do |node|
       node.vm.hostname = host_name
       #node.vm.network 'private_network', type: "dhcp"
-      node.vm.network 'private_network', type: "dhcp", :mac => host[:mac]
-    #  node.vm.network 'private_network', ip: host[:ip], ipv6: host[:ipv6], :mac => host[:mac]
+      #node.vm.network 'private_network', type: "dhcp", :mac => host[:mac]
+      node.vm.network 'private_network', ip: host[:ip], :mac => host[:mac]
       #node.vm.provision "shell",
       #run: "always",
       #inline: "ip -6 addr add host[:ipv6] dev eth1 "
+      node.vm.provider :virtualbox do |vbox|
+    #    vbox.customize ["modifyvm", :id, "--nat-network2", "edit"]
+      vbox.customize ["modifyvm", :id, "--nic2", "natnetwork", "--nat-network2", "edit"]
+      end
+      
       node.vm.provision 'ansible' do |ansible|
         ansible.playbook = "../../../../playbook/dnsmaster.yml"
       end

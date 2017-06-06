@@ -37,6 +37,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #node.vm.network 'private_network', type: "dhcp"
 #config.vm.network "private_network", ip: "10.0.0.100", :name => 'vboxnet3'
       node.vm.network 'private_network', ip: "172.28.128.100", :mac => "080027beb5a1"
+      # config.vm.network "private_network", type: "dhcp", virtualbox__natnets: "edit"
+     config.vm.provider :virtualbox do |vbox|
+   #    vbox.customize ["modifyvm", :id, "--nat-network2", "edit"]
+       vbox.customize ["modifyvm", :id, "--nic2", "natnetwork", "--nat-network2", "edit"]
+     end
       #node.vm.network "private_network", ip: "172.28.128.100"
 #config.vm.network "private_network", ip: "10.0.0.2", :name => 'vboxnet3'
 
