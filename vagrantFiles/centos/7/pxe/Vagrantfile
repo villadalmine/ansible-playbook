@@ -1,0 +1,28 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+require 'rbconfig'
+
+ROLE_NAME = 'ipxe'
+BASE_NAME = 'ipxe'
+hosts = [
+{ name: 'master'  }
+
+]
+VAGRANTFILE_API_VERSION = '2'
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = 'bertvv/centos72'
+
+  hosts.each do |host|
+    host_name = BASE_NAME + host[:name]
+
+    config.vm.define host_name do |node|
+      node.vm.network 'private_network', ip: "172.28.128.15", :mac => "080027beb515"
+      node.vm.provision "shell",
+        run: "always",
+        inline: "ip -6 addr add 2001::db8:0:1:15 dev enp0s8  "
+
+      end
+    end
+  end

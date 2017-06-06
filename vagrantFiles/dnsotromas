@@ -4,9 +4,11 @@ require 'rbconfig'
 
 ROLE_NAME = 'bind'
 BASE_NAME = 'test' + ROLE_NAME
+v4prefix = "172.28.128."
+v6prefix = "fddd::"
 hosts = [
-  { name: 'master', ip: '172.28.128.11' },
-  { name: 'slave' , ip: '172.28.128.12' }
+{ name: 'master' , ip: '172.28.128.11' },
+{ name: 'slave' , ip: '172.28.128.12' }
 ]
 VAGRANTFILE_API_VERSION = '2'
 
@@ -20,6 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node.vm.hostname = host_name
       #node.vm.network 'private_network', type: "dhcp"
       node.vm.network 'private_network', ip: host[:ip]
+    #  node.vm.network "private_network", ip: host[:ip6]
       node.vm.provision 'ansible' do |ansible|
         ansible.playbook = "../playbook/test.yml"
         #ansible.playbook = 'test.yml'         # Elaborate test that shows all features
@@ -28,4 +31,3 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 end
-

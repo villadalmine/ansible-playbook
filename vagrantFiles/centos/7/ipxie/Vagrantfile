@@ -6,44 +6,13 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
-  config.vm.box = "bento/centos-5.11"
-#  config.vm.box = "centos/6"
-#  config.vm.box = "centos/7"
-  #config.vm.network "public_network",:dev => "enp0s20u2u1u4", :type => "bridge"
-  #config.vm.network "public_network",:dev => "enp0s20u2u1u4", :type => "bridge"
-  config.vm.network "public_network", bridge: "enp0s20u2u1u4", use_dhcp_assigned_default_route: true
-  config.vm.define "centos5"
-#  config.vm.define "centos6"
-#  config.vm.define "centos7"
-#  config.vm.provision "ansible" do |ansible|
-    #jansible.playbook = "playbook/lamp.yml"
-   # ansible.limit = "all"
-    #ansible.inventory_path = "../playbook"
-#    ansible.playbook = "../playbook/dns.yml"
-    #ansible.inventory_path = "staging"
-#    ansible.verbose = "-v"
-    #ansible.raw_ssh_args = ANSIBLE_RAW_SSH_ARGS
-#    ansible.groups = {
-#      "dnsmaster" => ["machine1"],
-#      "dnssalve" => ["machine2"],
-#      "machines" => ["machine[1:2]"],
-      #"group4" => ["other_node-[a:d]"], # silly group definition
-      #"all_groups:children" => ["dnsmaster", "dnsslave"],
-      #"group1:vars" => {"variable1" => 9,
-      #                  "variable2" => "example"}
-   # }
- # end
-end
-
-##
-#Vagrant.configure("2") do |config|
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-#  config.vm.box = "centos/7"
+  config.vm.box = "TimGesekus/pxe-boot"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -99,4 +68,4 @@ end
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
-#end
+end

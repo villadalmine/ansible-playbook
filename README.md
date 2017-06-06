@@ -24,3 +24,8 @@ VBoxManage dhcpserver add \
 --lowerip 10.20.14.200 \
 --upperip 10.20.14.250 \
 --enable
+
+vboxmanage dhcpserver modify --netname HostInterfaceNetworking-vboxnet0 --disable
+vboxmanage list dhcpservers
+
+https://blogs.oracle.com/scoter/networking-in-virtualbox-v2

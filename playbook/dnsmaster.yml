@@ -36,7 +36,7 @@
       - '172.28.128'
       - '10'
     bind_zone_ipv6_networks:
-      - '2001:db8::/48'
+      - '2001:db8:0:1::/64'
     bind_zone_name: 'educacionit.com'
     bind_zone_master_server_ip: 172.28.128.11
     bind_zone_name_servers:
@@ -45,27 +45,29 @@
     bind_zone_hosts:
       - name: ns1
         ip: 172.28.128.11
+        ipv6: 2001::db8:0:1:119
       - name: ns2
         ip: 172.28.128.12
+        ipv6: 2001::db8:0:1:118
       - name: srv001
         ip: 172.28.128.20
-        ipv6: 2001:db8::1
+        ipv6: 2001::db8:0:1:20
         aliases:
           - wwww
       - name: srv002
         ip: 172.28.128.19
-        ipv6: 2001:db8::2
+        ipv6: 2001::db8:0:1:19
         aliases:
           - mysql
       - name: mail001
         ip: 172.28.128.21
-        ipv6: 2001:db8::d:1
+        ipv6: 2001::db8:0:1:21
         aliases:
           - smtp
           - mail-in
       - name: mail002
         ip: 172.28.128.22
-        ipv6: 2001:db8::d:3
+        ipv6: 2001::db8:0:1:22
         aliases:
           - pop
           - mail-out
@@ -92,6 +94,9 @@
     - name: ensure all interfaces are up
       become: True
       service: name=network enabled=yes state=restarted
+    - name: Configuring ipv6
+      become: True
+      command: ip -6 addr add 2001::db8:0:1:119/64 dev enp0s8
   roles:
     - ansible_role_dns
 
@@ -118,7 +123,7 @@
       - '172.28.128'
       - '10'
     bind_zone_ipv6_networks:
-      - '2001:db8::/48'
+      - '2001:db8:0:1::/64'
     bind_zone_name: 'educacionit.com'
     bind_zone_master_server_ip: 172.28.128.11
     bind_zone_name_servers:
@@ -127,27 +132,29 @@
     bind_zone_hosts:
       - name: ns1
         ip: 172.28.128.11
+        ipv6: 2001::db8:0:1:119
       - name: ns2
         ip: 172.28.128.12
+        ipv6: 2001::db8:0:1:118
       - name: srv001
         ip: 172.28.128.20
-        ipv6: 2001:db8::1
+        ipv6: 2001::db8:0:1:20
         aliases:
           - wwww
       - name: srv002
         ip: 172.28.128.19
-        ipv6: 2001:db8::2
+        ipv6: 2001::db8:0:1:19
         aliases:
           - mysql
       - name: mail001
         ip: 172.28.128.21
-        ipv6: 2001:db8::d:1
+        ipv6: 2001::db8:0:1:21
         aliases:
           - smtp
           - mail-in
       - name: mail002
         ip: 172.28.128.22
-        ipv6: 2001:db8::d:3
+        ipv6: 2001::db8:0:1:22
         aliases:
           - pop
           - mail-out
@@ -174,5 +181,8 @@
     - name: ensure all interfaces are up
       become: True
       service: name=network enabled=yes state=restarted
+    - name: Configuring ipv6
+      become: True
+      command: ip -6 addr add 2001::db8:0:1:118/64 dev enp0s8
   roles:
     - ansible_role_dns
