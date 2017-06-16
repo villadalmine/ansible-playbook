@@ -1,0 +1,61 @@
+# Allow anonymous FTP? (Beware - allowed by default if you comment this out).
+anonymous_enable=NO
+
+# Uncomment this to allow local users to log in.
+local_enable=YES
+
+## Enable virtual users
+guest_enable=YES
+
+## Virtual users will use the same permissions as anonymous
+virtual_use_local_privs=YES
+
+#
+# Uncomment this to enable any form of FTP write command.
+write_enable=YES
+
+## PAM file name
+pam_service_name=vsftpd_virtual
+
+## Home Directory for virtual users
+user_sub_token=$USER
+local_root=/ftp/virtual/$USER
+
+
+#guest_username=ftp
+#user_config_dir=/etc/vsftpd/config_por_usuario
+
+
+
+# You may specify an explicit list of local users to chroot() to their home
+# directory. If chroot_local_user is YES, then this list becomes a list of
+# users to NOT chroot().
+chroot_local_user=YES
+
+## Hide ids from user
+hide_ids=YES
+
+
+# vi /home/virtual_users.txt
+#user
+#pass
+# db_load -T -t hash -f /home/virtual_users.txt /etc/vsftpd/virtual_users.db
+# vi /etc/pam.d/vsftpd_virtual
+
+#%PAM-1.0
+#auth    required        pam_userdb.so   db=/etc/vsftpd/virtual_users
+#account required        pam_userdb.so   db=/etc/vsftpd/virtual_users
+#session required        pam_loginuid.so
+
+# mkdir -p /ftp/virtual/senthil
+# chown -R ftp:ftp /ftp/virtual/saaaaa/
+##!/bin/bash
+## Indicamos cual ser? el directorio personal del usuario gabriel
+#local_root=/ftp/virtual/senthil
+# Le damos permisos de escritura para su directorio personal.
+#write_enable=YES
+# Con virtual_use_local_privs igualado a YES, supone indicar que los usuarios
+# virtuales tendr?n los mismos privilegios que los usuarios locales.
+#virtual_use_local_privs=YES
+#ftpd_banner=Bienvenido al servidor ftpaaaaa
+#allow_writeable_chroot=YES

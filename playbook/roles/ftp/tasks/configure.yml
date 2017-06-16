@@ -1,0 +1,73 @@
+- name: Create customdefault config
+  become: True
+  become_user: root
+  template: src=vsftpd.conf.j2 dest=/etc/vsftpd/vsftpd.conf owner=root group=root mode=640
+  notify:
+    - restart vsftpd
+  when: vsftpd_enabled == True
+
+
+- name: Copy default config for ssl use
+  become: True
+  become_user: root
+  template: src=vsftpd-ssl.conf.j2 dest=/etc/vsftpd/vsftpd_ssl.conf.test owner=root group=root mode=640
+  notify:
+    - restart vsftpd
+  when: vsftpd_enabled == True
+
+
+- name: Copy default config virtual user db
+  become: True
+  become_user: root
+  template: src=vsftpd.conf.vu.j2 dest=/etc/vsftpd/vsftpd_ssl.conf.vu owner=root group=root mode=640
+  notify:
+    - restart vsftpd
+  when: vsftpd_enabled == True
+
+- name: Copy default config virtual user db
+  become: True
+  become_user: root
+  template: src=vsftpd.conf.capturas dest=/etc/vsftpd/vsftpd_capturas.vu owner=root group=root mode=640
+  notify:
+    - restart vsftpd
+  when: vsftpd_enabled == True
+
+- name: Copy default config virtual user db
+  become: True
+  become_user: root
+  template: src=vsftpd.conf.chrootlist dest=/etc/vsftpd/vsftpd_chrootlist.vu owner=root group=root mode=640    notify:
+    - restart vsftpd
+  when: vsftpd_enabled == True
+
+- name: Copy default config virtual user db
+  become: True
+  become_user: root
+  template: src=vsftpd.conf.mensajes dest=/etc/vsftpd/vsftpd_mensajes.conf.vu owner=root group=root mode=640
+  notify:
+    - restart vsftpd
+  when: vsftpd_enabled == True
+
+- name: Copy default config virtual user db
+  become: True
+  become_user: root
+  template: src=vsftpd.conf.misc dest=/etc/vsftpd/vsftpd_misc.vu owner=root group=root mode=640
+  notify:
+    - restart vsftpd
+  when: vsftpd_enabled == True
+
+- name: Copy default config virtual user db
+  become: True
+  become_user: root
+  template: src=vsftpd.conf.network dest=/etc/vsftpd/vsftpd_network.vu owner=root group=root mode=640
+  notify:
+    - restart vsftpd
+  when: vsftpd_enabled == True
+
+- name: Copy default config virtual user db
+  become: True
+  become_user: root
+  template: src=vsftpd.conf.userlist dest=/etc/vsftpd/vsftpd_userlist.vu owner=root group=root mode=640
+  notify:
+    - restart vsftpd
+  when: vsftpd_enabled == True
+  

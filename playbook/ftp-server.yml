@@ -1,0 +1,16 @@
+---
+
+- hosts: all
+  name: Set up base config
+  user: vagrant
+  gather_facts: True
+  vars:
+    provisioner: virtualbox
+    distribution: centos
+    vsftpd_enabled: True
+  vars_files:
+    - "vars_files/{{distribution}}-{{provisioner}}-vars.yml"
+    - "vars_files/{{distribution}}.yml"
+  roles:
+    - base
+    - ftp

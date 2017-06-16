@@ -1,0 +1,43 @@
+### VALORES POR DEFECTO ###
+
+#Globales
+
+write_enable=YES
+local_umask=022
+local_enable=YES
+allow_writeable_chroot=YES
+
+#Network
+
+listen=NO
+listen_ipv6=YES
+tcp_wrappers=YES
+connect_from_port_20=YES
+
+#User
+
+pam_service_name=vsftpd
+
+#anonymous
+
+anonymous_enable=NO
+
+
+#Logs
+
+# Activa la generación de registros logs por cada uploads/downloads.
+xferlog_enable=YES
+# Define cual será el archivo log.
+vsftpd_log_file=/var/log/vsftpd.log
+# Si esta directiva no se encuentra comentada activa el registro (log) de todas
+# las peticiones/respuestas del servidor.
+log_ftp_protocol=YES
+
+#misc
+#muestra todos los grupos y user como ftp, para ocultar los originales
+hide_ids=YES
+#por defecto usa GMT
+use_localtime=YES
+#por defecto esta en no, habilia ls recursivo ls -R, consume muchos recursos
+ls_recurse_enable=YES
+

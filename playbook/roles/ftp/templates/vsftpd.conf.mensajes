@@ -1,0 +1,45 @@
+### VALORES POR DEFECTO ###
+
+#Globales
+
+write_enable=YES
+local_umask=022
+local_enable=YES
+allow_writeable_chroot=YES
+
+#Network
+
+listen=NO
+listen_ipv6=YES
+tcp_wrappers=YES
+connect_from_port_20=YES
+
+#User
+
+pam_service_name=vsftpd
+
+#anonymous
+
+anonymous_enable=NO
+
+
+#Logs
+
+# Activa la generación de registros logs por cada uploads/downloads.
+xferlog_enable=YES
+# Define cual será el archivo log.
+vsftpd_log_file=/var/log/vsftpd.log
+# Si esta directiva no se encuentra comentada activa el registro (log) de todas
+# las peticiones/respuestas del servidor.
+log_ftp_protocol=YES
+
+
+#mensajes
+#los dos siguientes establecen el uso de mensajes cuando entra a un directorio
+dirmessage_enable=YES
+message_file=.rino
+#si dejan este va a omitir el ftpd)banner
+#banner_file=/etc/vsftpd/rino
+#si no existe el file usa este
+ftpd_banner="hola como estan"
+

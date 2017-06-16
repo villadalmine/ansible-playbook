@@ -1,0 +1,40 @@
+### VALORES POR DEFECTO ###
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+local_umask=022
+listen=YES
+listen_ipv6=NO
+pam_service_name=vsftpd
+tcp_wrappers=NO
+#listen_address=IP
+#listen_port=1078
+max_clients=12
+max_per_ip=2
+
+
+
+
+#LOGS
+syslog_enable=YES
+log_ftp_protocol=YES
+#xferlog_enable=YES 
+xferlog_std_format=NO
+xferlog_file=/var/log/vsftpd.log
+dual_log_enable=YES
+debug_ssl=YES
+
+
+#lftp -e 'debug 10;set ftp:passive-mode off; set ftp:auto-passive-mode no; ls; bye;' -u user,password ftp://ftp.site.com
+#http://slacksite.com/other/ftp.html
+#_https://stackoverflow.com/questions/13479499/how-to-start-active-mode-for-ftp-client-in-c-linux
+#pass
+#pasv_enable=NO
+#connect_from_port_20=YES
+#pasv_promiscuous=YES
+
+#pass mode
+connect_from_port_20=NO
+pasv_enable=YES
+pasv_min_port=1024
+pasv_max_port=65536
