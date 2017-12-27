@@ -1,0 +1,9 @@
+
+- include: "roles/mysql/tasks/install.yml"
+# Configure MySQL.
+- include: "roles/mysql/tasks/configure.yml"
+- include: "roles/mysql/tasks/secure-installation.yml"
+#- include: secure-installation.yml
+- include: "roles/mysql/tasks/databases.yml"
+- include: "roles/mysql/tasks/users.yml"
+#- include: replication.yml

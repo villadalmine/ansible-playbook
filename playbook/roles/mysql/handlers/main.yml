@@ -1,0 +1,4 @@
+---
+- name: restart mysql
+  become: True
+  service: "name={{ mysql_name }} state=restarted sleep=5"

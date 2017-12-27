@@ -38,3 +38,12 @@ connect_from_port_20=NO
 pasv_enable=YES
 pasv_min_port=1024
 pasv_max_port=65536
+
+
+#timeout
+# accept_timeout=60(default,tiempo espera pasv)
+#connect_timeout=60(default, tiempo espera port)
+#data_connection_timeout=300(default, stalled )
+#idle_session_timeout=300(default)
+#local_max_rate=0(default,transferencia)
+#anon_max_rate=0(default)

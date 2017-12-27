@@ -59,3 +59,7 @@ hide_ids=YES
 #virtual_use_local_privs=YES
 #ftpd_banner=Bienvenido al servidor ftpaaaaa
 #allow_writeable_chroot=YES
+#https://github.com/sindresorhus/awesome
+#@ setsebool -P allow_ftpd_full_access 1
+#chcon -t public_content_rw_t /var/www/site2
+#ls -ldZ /var/www/site2/
