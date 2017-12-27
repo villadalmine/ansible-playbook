@@ -149,6 +149,8 @@
   roles:
     - { role: geerlingguy.nginx }
 
+
+## NGINX PHASE4 APP INDEX.HTML
 - hosts: tag_Name_rhel74_nginx
   name: Set up instances app index.html
   user: ec2-user
