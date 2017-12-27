@@ -1,6 +1,0 @@
-- name: restart vsftpd
-  service: name=vsftpd state=restarted
-  become: True
-  become_user: root
-  tags: vsftpd
-  when: vsftpd_enabled ==  True

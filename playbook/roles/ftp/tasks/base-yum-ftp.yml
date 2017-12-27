@@ -1,9 +1,0 @@
-- name: Install vsftpd and  package
-  yum: name="{{item}}" state=present
-  become: True
-  become_user: root
-  with_items:
-    - vsftpd
-    - lftp
-  tags: bind
-  when: vsftpd_enabled == True
