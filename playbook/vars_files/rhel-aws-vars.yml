@@ -1,0 +1,8 @@
+stack_name: "RhelStack"
+stack_state: "present"
+aws_region: "us-east-2"
+user: "ec2-user"
+newuser: "user1"
+sshcfgpath: "/Users/restaurador/violeta/repos/rino/ansible/playbook/ssh.cfg"
+pathkeys: "/Users/restaurador/violeta/repos/rino/ansible/playbook/keys/private/RINO_OHIO.pem.atadata"
+password: "$6$rounds=656000$ovuXWNeRcL70hiCO$EyzuTDa.okN/cL/eLFLLwMeEIARHFdvi5MYHTDnbev3UvS8zVFon8MCUVDd0eTe6NQ0Z8OQd7nn8.igXcAotj1"

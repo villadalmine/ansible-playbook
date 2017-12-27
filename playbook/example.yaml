@@ -1,0 +1,171 @@
+#NGINX PHASE1 PROVISIONING
+- hosts: localhost
+  name: Provision Stack Nginx
+  connection: local
+  gather_facts: True
+  vars:
+    whoami: "{{ lookup('env','USER') }}"
+    provisioner: aws
+    distribution: rhel
+    version: "74"
+    Distro: rhel
+    app: nginx
+    Name: "rhel74-nginx"
+    stackclass: stack
+    enviroment: testing
+    appd : "nginx"
+    rolepath: "/Users/restaurador/violeta/repos/rino/ansible/playbook"
+  vars_files:
+    - "vars_files/{{distribution}}-{{provisioner}}-vars.yml"
+    - "vars_files/{{provisioner}}_private.yml"
+  tasks:
+    - name: Remove ssh.cfg config
+      file: path={{ sshcfgpath }} state=absent
+    - name: Run my CloudFormation stack
+      cloudformation:
+        stack_name: "{{stack_name}}-{{Name}}"
+        region: "{{ aws_region }}"
+        state: "{{ stack_state }}"
+        template: "roles/distrostack/files/{{Distro}}{{version}}-{{app}}.yml"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        tags:
+          Version: "{{version}}"
+          Distro: "{{Distro}}"
+          Name: "{{Distro}}{{version}}-nginx"
+          class: "{{stackclass}}"
+          environment: testing
+      register: "ec2_rhel74_stack"
+    - debug: var="ec2_rhel74_stack"
+    - debug: var="ec2_rhel74_stack.stack_outputs.InstanceId"
+    - debug: var="ec2_rhel74_stack.stack_outputs.PublicIP"
+    - set_fact:
+        ipaddress: "{{ec2_rhel74_stack.stack_outputs.PublicIP}}"
+    - debug: var=ipaddress
+    - include: "roles/base/tasks/sshcfg.yml"
+    - name: Wait for server to restart
+      local_action:
+        module: wait_for
+          host={{ ipaddress }}
+          port=22
+          delay=20
+          timeout=800
+    - name: Save ipAddres of {{ appd }}
+      local_action: copy content="{{ ec2_rhel74_stack.stack_outputs.PublicIP }}" dest="/Users/restaurador/violeta/repos/rino/ansible/playbook/{{ appd }}"
+    - name: Refresh EC2 cache
+      command: /Users/restaurador/violeta/repos/rino/ansible/playbook/ec2.py --refresh-cache
+    - name: Refresh in-memory EC2 cache
+      meta: refresh_inventory
+
+
+#NGINX PHASE2 DEFAULT CONFIGURATION
+
+- hosts: tag_Name_rhel74_nginx
+  name: Set up instance base stuff
+  user: ec2-user
+  gather_facts: True
+  vars:
+    whoami: "{{ lookup('env','USER') }}"
+    provisioner: aws
+    distribution: rhel
+    rolepath: "/Users/restaurador/violeta/repos/rino/ansible/playbook"
+    upassword: "$6$saltsalt$dNiAnt8IfGd4y9XU1MBvmAeE0uDyoHlSH2reY2CkKaQzkZozhTsh8EBa08OjqJEBao/vWmCrqppJ2Nhz/OJo11"
+  vars_files:
+    - "vars_files/{{distribution}}-{{provisioner}}-vars.yml"
+    - "vars_files/{{provisioner}}_private.yml"
+    - "vars_files/{{distribution}}.yml"
+  roles:
+    - base
+  tasks:
+    - name: create swap file
+      become: True
+      become_user: root
+      command: dd if=/dev/zero of=/swapfile bs=1M count=2000
+    - name: change permission type
+      become: True
+      become_user: root
+      file: path=/swapfile mode=600 state=file
+    - name: setup swap
+      become: True
+      become_user: root
+      command: mkswap /swapfile
+    - name: create swap
+      become: True
+      become_user: root
+      command: swapon /swapfile
+    - name: Add to fstab
+      become: True
+      become_user: root
+      action: lineinfile dest=/etc/fstab regexp="swapfile" line="/swapfile none swap sw 0 0" state=present
+    - name: start swap
+      become: True
+      become_user: root
+      command: swapon -a
+    - name: Create User group
+      become: True
+      become_user: root
+      group:
+        name: example
+        state: present
+    - name: Create  user
+      become: True
+      become_user: root
+      user:
+        name: test
+        comment: "Oracle DBA Account"
+        group: example
+        groups: wheel
+        password: "{{ upassword }}"
+    - name: Ensure home dir permissions
+      become: True
+      become_user: root
+      file:
+        path: /home/test
+        owner: test
+        group: example
+        state: directory
+    - name: Remove ssh.cfg config
+      file: path={{ sshcfgpath }} state=absent
+    - name: Run the command if the specified file does not exist.
+      command: /usr/bin/yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional creates=/root/extra
+      become: True
+      become_user: root
+
+## NGINX PHASE3 NGINX CONFIG
+
+- hosts: tag_Name_rhel74_nginx
+  name: Set up instance nginx
+  user: ec2-user
+  gather_facts: True
+  vars:
+    whoami: "{{ lookup('env','USER') }}"
+    provisioner: aws
+    distribution: rhel
+  vars_files:
+    - "vars_files/{{distribution}}-{{provisioner}}-vars.yml"
+    - "vars_files/{{provisioner}}_private.yml"
+    - "vars_files/{{distribution}}.yml"
+    - "roles/geerlingguy.nginx/defaults/main.yml"
+  roles:
+    - { role: geerlingguy.nginx }
+
+- hosts: tag_Name_rhel74_nginx
+  name: Set up instances app index.html
+  user: ec2-user
+  gather_facts: True
+  vars:
+    whoami: "{{ lookup('env','USER') }}"
+    provisioner: aws
+    distribution: rhel
+  vars_files:
+    - "vars_files/{{distribution}}-{{provisioner}}-vars.yml"
+    - "vars_files/{{provisioner}}_private.yml"
+    - "vars_files/{{distribution}}.yml"
+    - "roles/geerlingguy.nginx/defaults/main.yml"
+  tasks:
+    - copy:
+        src: /Users/restaurador/violeta/repos/rino/ansible/playbook/roles/geerlingguy.nginx/templates/index.html
+        dest: /var/www/html
+        owner: nginx
+        group: nginx
+        mode: u+rw,g-wx,o-wx

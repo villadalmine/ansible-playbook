@@ -1,0 +1,19 @@
+epel: False
+package_manager: yum
+apache_name: apache2
+mysql_name: mysql
+mysql_root_password: atadata5533
+mysql_databases:
+  - name: wordpress
+    encoding: latin1
+    collation: latin1_general_ci
+mysql_users:
+  - name: userwp
+    host: "%"
+    password: userpwp
+    priv: "wordpress.*:ALL"
+mysql_datadir: /var/lib/mysql
+mysql_python: python-mysql
+mysql_root_password_initial: ''
+mysql_root_username: root
+mysql_root_home: /root

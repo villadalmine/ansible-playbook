@@ -1,27 +1,8 @@
 - include: "roles/base/tasks/base-{{package_manager}}.yml"
+#- include: "base-{{package_manager}}.yml"
 
-#- name: configure ntp file
-#  template: src=rino.conf.j2 dest=/etc/security/limits.conf
-
-- name: Disabled firewalld
+- name: Passwordless sudo
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%wheel' line='%wheel ALL=(ALL) NOPASSWD: ALL'"
+  when: "{{passwordless_sudo}}"
   become: True
-  service: name=firewalld state=stopped enabled=no
-
-- name: Set SELinux in permissive mode until the machine is rebooted
-  shell: setenforce 0
-  sudo: yes
-  ignore_errors: True
-
-#- #ame: Set dmz as default policy
-  #command: firewall-cmd --set-default-zone=public
-
-#- name: Allow http/https
-  #command: firewall-cmd --zone=public --permanent --add-service=http --add-service=https --add-service=dns --add-service=ssh
-
-#- name: 4949 (munin-node) is open to monitor(s)
-#  when: install_muninnode|default(True)
-#  command: firewall-cmd --permanent --zone=dmz --add-rich-rule='rule family="ipv4" source address="{{ item }}/32" port port=4949 protocol="tcp" accept'
-#  with_items: muninnode_query_ips|default([])
-
-#- name: Bounce firewalld
-#  service: name=firewalld state=restarted
+  become_user: root
