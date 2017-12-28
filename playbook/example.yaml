@@ -167,7 +167,7 @@
   tasks:
     - copy:
         src: /Users/restaurador/violeta/repos/rino/ansible/playbook/roles/geerlingguy.nginx/templates/index.html
-        dest: /usr/share/nginx/html
+        dest: /usr/share/nginx/html/index.html
         owner: nginx
         group: nginx
         mode: u+rw,g-wx,o-wx
